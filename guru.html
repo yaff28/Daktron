@@ -768,6 +768,7 @@ let fotoBase64Terpilih = null; // menampung hasil kompresi foto sebelum disimpan
 let chartLevel = null;
 let logoKopSuratKiriBase64 = null;  // Base64 logo kop surat kiri, disimpan di localStorage
 let logoKopSuratKananBase64 = null; // Base64 logo kop surat kanan, disimpan di localStorage
+let tandaTanganBase64 = null; // Base64 tanda tangan digital guru, disimpan di localStorage + Firestore
 
 /* =====================================================================
    2. SISTEM KEAMANAN — ROLE-BASED ACCESS CONTROL
@@ -1336,7 +1337,17 @@ function gambarRuangTandaTangan(docPdf, yMulai){
   docPdf.text('Mengetahui,', kananX, yMulai);
   docPdf.text('Guru Mata Pelajaran', kananX, yMulai + 5);
 
-  docPdf.text('(...........................................)', kananX, yMulai + 30);
+  const ttdTersimpan = tandaTanganBase64 || localStorage.getItem('tandaTanganGuru');
+  if(ttdTersimpan){
+    try{
+      docPdf.addImage(ttdTersimpan, deteksiFormatGambar(ttdTersimpan), kananX - 2, yMulai + 8, 46, 20, undefined, 'FAST');
+    }catch(e){
+      console.warn('Gagal menambahkan tanda tangan ke PDF, pakai garis kosong:', e);
+      docPdf.text('(...........................................)', kananX, yMulai + 30);
+    }
+  } else {
+    docPdf.text('(...........................................)', kananX, yMulai + 30);
+  }
   docPdf.setFont('helvetica', 'bold');
   docPdf.text(dataGuruAktif?.name || userAktif?.email || 'Guru Mata Pelajaran', kananX, yMulai + 35);
 
@@ -1642,6 +1653,212 @@ function hapusLogoKopSurat(sisi){
   tampilkanToast('Logo kop surat ' + sisi + ' dihapus.');
 }
 
+/* =====================================================================
+   11C. TANDA TANGAN DIGITAL — GAMBAR DI CANVAS, UNGGAH, & SIMPAN
+   ===================================================================== */
+let ctxTtd = null;
+let sedangMenggambarTtd = false;
+let adaCoretanTtd = false;
+let posisiTerakhirTtd = { x: 0, y: 0 };
+
+// Menghitung posisi mouse/jari relatif terhadap ukuran asli canvas (bukan ukuran tampilan CSS),
+// supaya coretan tetap presisi walau canvas di-scale responsif oleh CSS.
+function posisiPointerCanvasTtd(canvas, evt){
+  const rect = canvas.getBoundingClientRect();
+  const titik = (evt.touches && evt.touches[0]) ? evt.touches[0] : evt;
+  const skalaX = canvas.width / rect.width;
+  const skalaY = canvas.height / rect.height;
+  return {
+    x: (titik.clientX - rect.left) * skalaX,
+    y: (titik.clientY - rect.top) * skalaY
+  };
+}
+
+function mulaiGambarTtd(evt){
+  evt.preventDefault();
+  const canvas = $('#canvasTandaTangan');
+  sedangMenggambarTtd = true;
+  posisiTerakhirTtd = posisiPointerCanvasTtd(canvas, evt);
+}
+
+function gambarTtd(evt){
+  if(!sedangMenggambarTtd || !ctxTtd) return;
+  evt.preventDefault();
+  const canvas = $('#canvasTandaTangan');
+  const posisi = posisiPointerCanvasTtd(canvas, evt);
+  ctxTtd.lineCap = 'round';
+  ctxTtd.lineJoin = 'round';
+  ctxTtd.lineWidth = 2.6;
+  ctxTtd.strokeStyle = '#12243e';
+  ctxTtd.beginPath();
+  ctxTtd.moveTo(posisiTerakhirTtd.x, posisiTerakhirTtd.y);
+  ctxTtd.lineTo(posisi.x, posisi.y);
+  ctxTtd.stroke();
+  posisiTerakhirTtd = posisi;
+  adaCoretanTtd = true;
+}
+
+function selesaiGambarTtd(){
+  sedangMenggambarTtd = false;
+}
+
+function inisialisasiCanvasTandaTangan(){
+  const canvas = $('#canvasTandaTangan');
+  if(!canvas || ctxTtd) return; // sudah pernah dipasang, jangan dobel listener
+  ctxTtd = canvas.getContext('2d');
+
+  // Mouse (desktop)
+  canvas.addEventListener('mousedown', mulaiGambarTtd);
+  canvas.addEventListener('mousemove', gambarTtd);
+  window.addEventListener('mouseup', selesaiGambarTtd);
+
+  // Sentuhan jari (HP/tablet) — passive:false wajib agar preventDefault berhasil
+  // dan halaman tidak ikut ter-scroll saat menggambar.
+  canvas.addEventListener('touchstart', mulaiGambarTtd, { passive: false });
+  canvas.addEventListener('touchmove', gambarTtd, { passive: false });
+  canvas.addEventListener('touchend', selesaiGambarTtd);
+  canvas.addEventListener('touchcancel', selesaiGambarTtd);
+}
+
+function bersihkanCanvasTtd(){
+  const canvas = $('#canvasTandaTangan');
+  if(!ctxTtd || !canvas) return;
+  ctxTtd.clearRect(0, 0, canvas.width, canvas.height);
+  adaCoretanTtd = false;
+}
+
+function renderPreviewTtd(base64){
+  const wrap = $('#ttdPreview');
+  const btnHapus = $('#btnHapusTtd');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  if(base64){
+    const img = document.createElement('img');
+    img.src = base64;
+    img.alt = 'Tanda tangan tersimpan';
+    wrap.appendChild(img);
+    if(btnHapus) btnHapus.hidden = false;
+  } else {
+    const placeholder = document.createElement('span');
+    placeholder.className = 'ttd-preview-placeholder';
+    placeholder.textContent = 'Belum ada tanda tangan tersimpan';
+    wrap.appendChild(placeholder);
+    if(btnHapus) btnHapus.hidden = true;
+  }
+}
+
+async function simpanTandaTangan(){
+  const canvas = $('#canvasTandaTangan');
+  const statusEl = $('#ttdStatus');
+  if(!adaCoretanTtd){
+    tampilkanToast('Gambar dulu tanda tangan di kotak sebelum disimpan.', true);
+    return;
+  }
+  const btn = $('#btnSimpanTtd');
+  const teksAsliBtn = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Menyimpan...';
+  try{
+    const base64 = canvas.toDataURL('image/png');
+    localStorage.setItem('tandaTanganGuru', base64);
+    tandaTanganBase64 = base64;
+    if(userAktif){
+      await updateDoc(doc(db, 'users', userAktif.uid), { tandaTanganBase64: base64 });
+      if(dataGuruAktif) dataGuruAktif.tandaTanganBase64 = base64;
+    }
+    renderPreviewTtd(base64);
+    bersihkanCanvasTtd();
+    if(statusEl){
+      statusEl.textContent = 'Tanda tangan disimpan aman ke akun Anda — ikut muncul di perangkat mana pun Anda login.';
+      statusEl.className = 'kop-status ok';
+    }
+    tampilkanToast('Tanda tangan berhasil disimpan & siap dipakai di laporan PDF.');
+  }catch(e){
+    console.error('Gagal menyimpan tanda tangan:', e);
+    if(statusEl){
+      statusEl.textContent = 'Gagal menyimpan tanda tangan. Coba lagi.';
+      statusEl.className = 'kop-status err';
+    }
+    tampilkanToast('Gagal menyimpan tanda tangan.', true);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = teksAsliBtn;
+  }
+}
+
+function unggahTandaTangan(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const statusEl = $('#ttdStatus');
+
+  if(!file.type.startsWith('image/')){
+    if(statusEl){ statusEl.textContent = 'File yang dipilih bukan gambar. Coba file lain.'; statusEl.className = 'kop-status err'; }
+    return;
+  }
+
+  if(statusEl){ statusEl.textContent = 'Memproses gambar tanda tangan...'; statusEl.className = 'kop-status'; }
+
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const base64 = ev.target.result;
+    try{
+      localStorage.setItem('tandaTanganGuru', base64);
+      tandaTanganBase64 = base64;
+      if(userAktif){
+        await updateDoc(doc(db, 'users', userAktif.uid), { tandaTanganBase64: base64 });
+        if(dataGuruAktif) dataGuruAktif.tandaTanganBase64 = base64;
+      }
+      renderPreviewTtd(base64);
+      if(statusEl){
+        statusEl.textContent = 'Tanda tangan disimpan aman ke akun Anda — ikut muncul di perangkat mana pun Anda login.';
+        statusEl.className = 'kop-status ok';
+      }
+      tampilkanToast('Gambar tanda tangan berhasil diunggah & disimpan.');
+    }catch(err){
+      console.error('Gagal menyimpan tanda tangan unggahan:', err);
+      if(statusEl){
+        statusEl.textContent = 'Gagal menyimpan tanda tangan (ukuran mungkin terlalu besar).';
+        statusEl.className = 'kop-status err';
+      }
+      tampilkanToast('Gagal menyimpan tanda tangan.', true);
+    }
+  };
+  reader.onerror = () => {
+    if(statusEl){ statusEl.textContent = 'Gagal membaca file gambar.'; statusEl.className = 'kop-status err'; }
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+async function hapusTandaTanganTersimpan(){
+  try{ localStorage.removeItem('tandaTanganGuru'); }catch(e){ /* abaikan */ }
+  tandaTanganBase64 = null;
+  renderPreviewTtd(null);
+  const statusEl = $('#ttdStatus');
+  if(statusEl){
+    statusEl.textContent = 'Tanda tangan dihapus. Laporan PDF akan dicetak tanpa tanda tangan digital.';
+    statusEl.className = 'kop-status';
+  }
+  if(userAktif){
+    try{
+      await updateDoc(doc(db, 'users', userAktif.uid), { tandaTanganBase64: null });
+      if(dataGuruAktif) dataGuruAktif.tandaTanganBase64 = null;
+    }catch(e){ console.warn('Gagal menghapus tanda tangan di akun:', e); }
+  }
+  tampilkanToast('Tanda tangan tersimpan dihapus.');
+}
+
+function muatTandaTanganTersimpan(){
+  try{
+    tandaTanganBase64 = (dataGuruAktif && dataGuruAktif.tandaTanganBase64) || localStorage.getItem('tandaTanganGuru') || null;
+    if(tandaTanganBase64){ localStorage.setItem('tandaTanganGuru', tandaTanganBase64); }
+  }catch(e){
+    console.warn('Gagal membaca tanda tangan tersimpan:', e);
+    tandaTanganBase64 = null;
+  }
+  renderPreviewTtd(tandaTanganBase64);
+}
+
 /* ---------- Toast ---------- */
 let timerToast = null;
 function tampilkanToast(pesan, error = false){
@@ -1712,6 +1929,13 @@ function pasangEventListener(){
   $('#inputLogoSuratKanan').addEventListener('change', tanganiPilihLogoSuratKanan);
   $('#btnHapusLogoKopKanan').addEventListener('click', () => hapusLogoKopSurat('kanan'));
   muatLogoKopSuratTersimpan();
+
+  $('#btnBersihkanCanvasTtd').addEventListener('click', bersihkanCanvasTtd);
+  $('#btnSimpanTtd').addEventListener('click', simpanTandaTangan);
+  $('#inputUploadTandaTangan').addEventListener('change', unggahTandaTangan);
+  $('#btnHapusTtd').addEventListener('click', hapusTandaTanganTersimpan);
+  inisialisasiCanvasTandaTangan();
+  muatTandaTanganTersimpan();
 
   $('#btnLogout').addEventListener('click', () => {
     if(unsubscribeSiswa) unsubscribeSiswa();
