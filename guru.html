@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+l<!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Portal Analitik Guru — CHEMCLAK</title>
+<title>Portal Analitik Guru — Daktron</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%222.3%22 fill=%22%231E88E5%22/><ellipse cx=%2212%22 cy=%2212%22 rx=%2210%22 ry=%224.2%22 fill=%22none%22 stroke=%22%231E88E5%22 stroke-width=%221.6%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,15 +12,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- ============ CDN: Chart.js (grafik batang & donat) ============ -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
 <!-- ============ CDN: jsPDF + jsPDF-AutoTable (cetak rapor PDF) ============ -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
 <style>
 /* =====================================================================
-   PORTAL ANALITIK GURU — CHEMCLAK — ENTERPRISE / E-RAPOR NASIONAL STYLE
+   PORTAL ANALITIK GURU — Daktron — ENTERPRISE / E-RAPOR NASIONAL STYLE
    ===================================================================== */
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -354,17 +358,20 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
   *{ animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
 </style>
+
 </head>
 <body>
 
 <!-- ===================== GERBANG PEMERIKSAAN AKSES ===================== -->
+
 <div id="gateCek">
   <div class="gate-spinner" aria-hidden="true"></div>
-  <p class="gate-brand">CHEMCLAK — Portal Guru</p>
+  <p class="gate-brand">Daktron — Portal Guru</p>
   <p id="gateCekTeks">Memeriksa hak akses...</p>
 </div>
 
 <!-- ===================== SHELL DASHBOARD ===================== -->
+
 <div class="app-shell" id="appShell" hidden>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -373,34 +380,37 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
     <div class="sidebar-brand">
       <span class="logo-dot" id="sidebarLogoWrap">C</span>
       <div>
-        <strong>CHEMCLAK</strong>
+        <strong>Daktron</strong>
         <span>Portal Analitik Guru</span>
       </div>
     </div>
 
-    <div class="sidebar-profile">
-      <span class="sp-avatar" id="sidebarAvatarWrap">G</span>
-      <div class="sp-meta">
-        <strong id="sidebarNamaGuru">Memuat...</strong>
-        <span id="sidebarEmailGuru">-</span>
-      </div>
-    </div>
+```
+<div class="sidebar-profile">
+  <span class="sp-avatar" id="sidebarAvatarWrap">G</span>
+  <div class="sp-meta">
+    <strong id="sidebarNamaGuru">Memuat...</strong>
+    <span id="sidebarEmailGuru">-</span>
+  </div>
+</div>
 
-    <nav class="sidebar-nav">
-      <button class="nav-item is-active" data-view="beranda" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>
-        Beranda
-      </button>
-      <button class="nav-item" data-view="laporan" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-        Peringkat Global Siswa
-      </button>
-      <button class="nav-item" data-view="pengaturan" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.5-2-3.4-2.3.9a7.7 7.7 0 0 0-1.7-1l-.4-2.5H9.9l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.3-.9-2 3.4L5.5 11a7.6 7.6 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9c.5.4 1.1.7 1.7 1l.4 2.5h4.1l.4-2.5c.6-.3 1.2-.6 1.7-1l2.3.9 2-3.4-2-1.5Z"/></svg>
-        Pengaturan Profil
-      </button>
-    </nav>
-    <div class="sidebar-foot">Lomba Inovasi Nasional · CHEMCLAK © 2026</div>
+<nav class="sidebar-nav">
+  <button class="nav-item is-active" data-view="beranda" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>
+    Beranda
+  </button>
+  <button class="nav-item" data-view="laporan" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+    Peringkat Global Siswa
+  </button>
+  <button class="nav-item" data-view="pengaturan" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.5-2-3.4-2.3.9a7.7 7.7 0 0 0-1.7-1l-.4-2.5H9.9l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.3-.9-2 3.4L5.5 11a7.6 7.6 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9c.5.4 1.1.7 1.7 1l.4 2.5h4.1l.4-2.5c.6-.3 1.2-.6 1.7-1l2.3.9 2-3.4-2-1.5Z"/></svg>
+    Pengaturan Profil
+  </button>
+</nav>
+<div class="sidebar-foot">Lomba Inovasi Nasional · Daktron © 2026</div>
+```
+
   </aside>
 
   <div class="main-wrap">
@@ -410,7 +420,7 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="19" height="19"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
         <div>
-          <p class="topbar-eyebrow">CHEMCLAK · Sistem Evaluasi Terpadu</p>
+          <p class="topbar-eyebrow">Daktron · Sistem Evaluasi Terpadu</p>
           <h1 class="topbar-title" id="topbarTitle">Beranda</h1>
         </div>
       </div>
@@ -426,208 +436,229 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
       </div>
     </header>
 
-    <main class="content">
+```
+<main class="content">
 
-      <!-- ===================== VIEW: BERANDA ===================== -->
-      <section class="view is-active" id="view-beranda">
-        <span class="view-eyebrow">Ringkasan Evaluasi</span>
-        <h2 class="view-heading">Halo, <span id="sapaanNamaGuru">Bu/Pak Guru</span> 👋</h2>
-        <p class="view-sub">Berikut rangkuman perkembangan seluruh siswa CHEMCLAK secara real-time.</p>
+  <!-- ===================== VIEW: BERANDA ===================== -->
+  <section class="view is-active" id="view-beranda">
+    <span class="view-eyebrow">Ringkasan Evaluasi</span>
+    <h2 class="view-heading">Halo, <span id="sapaanNamaGuru">Bu/Pak Guru</span> 👋</h2>
+    <p class="view-sub">Berikut rangkuman perkembangan seluruh siswa Daktron secara real-time.</p>
 
-        <div class="cards-grid">
-          <div class="stat-card c-total">
-            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="8.5" r="2.6"/><path d="M15.7 14.2c2.9.4 4.8 2.5 4.8 5.8"/></svg></div>
-            <div class="stat-label">Total Siswa Terdaftar</div>
-            <div class="stat-value" id="statTotalSiswa">–</div>
-            <div class="stat-hint">Akun dengan peran siswa</div>
-          </div>
-          <div class="stat-card c-avg">
-            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V10M12 19V5M20 19v-7"/></svg></div>
-            <div class="stat-label">Rata-rata Skor Kelas</div>
-            <div class="stat-value" id="statRataSkor">–</div>
-            <div class="stat-hint">Berdasarkan total XP</div>
-          </div>
-          <div class="stat-card c-top">
-            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4"/><path d="M16 5h3a3 3 0 0 1-3 4"/><path d="M9.5 19.5h5l-.8-4h-3.4z"/></svg></div>
-            <div class="stat-label">Peringkat Global #1</div>
-            <div class="stat-value" id="statSiswaTerbaik">–</div>
-            <div class="stat-hint" id="statSiswaTerbaikHint">Siswa dengan XP tertinggi</div>
-          </div>
-        </div>
+    <div class="cards-grid">
+      <div class="stat-card c-total">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="8.5" r="2.6"/><path d="M15.7 14.2c2.9.4 4.8 2.5 4.8 5.8"/></svg></div>
+        <div class="stat-label">Total Siswa Terdaftar</div>
+        <div class="stat-value" id="statTotalSiswa">–</div>
+        <div class="stat-hint">Akun dengan peran siswa</div>
+      </div>
+      <div class="stat-card c-avg">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V10M12 19V5M20 19v-7"/></svg></div>
+        <div class="stat-label">Rata-rata Skor Kelas</div>
+        <div class="stat-value" id="statRataSkor">–</div>
+        <div class="stat-hint">Berdasarkan total XP</div>
+      </div>
+      <div class="stat-card c-top">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4"/><path d="M16 5h3a3 3 0 0 1-3 4"/><path d="M9.5 19.5h5l-.8-4h-3.4z"/></svg></div>
+        <div class="stat-label">Peringkat Global #1</div>
+        <div class="stat-value" id="statSiswaTerbaik">–</div>
+        <div class="stat-hint" id="statSiswaTerbaikHint">Siswa dengan XP tertinggi</div>
+      </div>
+    </div>
 
-        <!-- ============ GRAFIK ANALITIK ============ -->
-        <div class="panel chart-panel">
-          <h3>📊 Distribusi Level Pemain</h3>
-          <p class="panel-sub">Jumlah siswa pada setiap level pencapaian, seluruh peringkat global.</p>
-          <div class="chart-canvas-wrap">
-            <canvas id="chartDistribusiLevel"></canvas>
-          </div>
-        </div>
+    <!-- ============ GRAFIK ANALITIK ============ -->
+    <div class="panel chart-panel">
+      <h3>📊 Distribusi Level Pemain</h3>
+      <p class="panel-sub">Jumlah siswa pada setiap level pencapaian, seluruh peringkat global.</p>
+      <div class="chart-canvas-wrap">
+        <canvas id="chartDistribusiLevel"></canvas>
+      </div>
+    </div>
 
-        <div class="panel">
-          <h3>🏆 5 Peringkat Global Teratas</h3>
-          <p class="panel-sub">Diurutkan dari total skor/XP tertinggi.</p>
-          <div class="mini-list" id="miniTop5">
-            <div class="state-row"><div class="mini-spinner"></div>Memuat data siswa...</div>
-          </div>
-        </div>
-      </section>
+    <div class="panel">
+      <h3>🏆 5 Peringkat Global Teratas</h3>
+      <p class="panel-sub">Diurutkan dari total skor/XP tertinggi.</p>
+      <div class="mini-list" id="miniTop5">
+        <div class="state-row"><div class="mini-spinner"></div>Memuat data siswa...</div>
+      </div>
+    </div>
+  </section>
 
-      <!-- ===================== VIEW: LAPORAN SISWA (E-RAPOR) ===================== -->
-      <section class="view" id="view-laporan">
-        <span class="view-eyebrow">Analitik</span>
-        <h2 class="view-heading">Peringkat Global Siswa</h2>
-        <p class="view-sub">Cari, urutkan, tinjau, dan cetak peringkat global seluruh siswa berdasarkan XP.</p>
+  <!-- ===================== VIEW: LAPORAN SISWA (E-RAPOR) ===================== -->
+  <section class="view" id="view-laporan">
+    <span class="view-eyebrow">Analitik</span>
+    <h2 class="view-heading">Peringkat Global Siswa</h2>
+    <p class="view-sub">Cari, urutkan, tinjau, dan cetak peringkat global seluruh siswa berdasarkan XP.</p>
 
-        <div class="toolbar">
-          <div class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input type="text" id="inputCariSiswa" placeholder="Cari nama atau email siswa...">
-          </div>
-          <div class="toolbar-actions">
-            <button class="btn-export btn-export-csv" id="btnExportCsv" type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0-4.5-4.5M12 16l4.5-4.5"/><path d="M4 19.5h16"/></svg>
-              Unduh Excel (CSV)
-            </button>
-            <button class="btn-export btn-export-pdf" id="btnExportPdf" type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
-              Cetak Peringkat Global (PDF)
-            </button>
-          </div>
-        </div>
+    <div class="toolbar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="inputCariSiswa" placeholder="Cari nama atau email siswa...">
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-export btn-export-csv" id="btnExportCsv" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0-4.5-4.5M12 16l4.5-4.5"/><path d="M4 19.5h16"/></svg>
+          Unduh Excel (CSV)
+        </button>
+        <button class="btn-export btn-export-pdf" id="btnExportPdf" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+          Cetak Peringkat Global (PDF)
+        </button>
+      </div>
+    </div>
 
-        <div class="table-wrap">
-          <div class="table-scroll">
-            <table class="tabel-siswa">
-              <thead>
-                <tr>
-                  <th data-sort="rank" class="th-sort">No <span class="sort-ind"></span></th>
-                  <th data-sort="nama" class="th-sort">Nama Siswa <span class="sort-ind"></span></th>
-                  <th data-sort="email" class="th-sort">Email <span class="sort-ind"></span></th>
-                  <th data-sort="level" class="th-sort">Level <span class="sort-ind"></span></th>
-                  <th data-sort="xp" class="th-sort">Total Skor/XP <span class="sort-ind"></span></th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="tbodySiswa">
-                <tr class="state-row"><td colspan="6"><div class="mini-spinner"></div>Memuat Data Siswa...</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="pagination-bar" id="paginationBar">
-            <span class="pagination-info" id="paginationInfo">–</span>
-            <div class="pagination-controls" id="paginationControls"></div>
-          </div>
-        </div>
-      </section>
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table class="tabel-siswa">
+          <thead>
+            <tr>
+              <th data-sort="rank" class="th-sort">No <span class="sort-ind"></span></th>
+              <th data-sort="nama" class="th-sort">Nama Siswa <span class="sort-ind"></span></th>
+              <th data-sort="email" class="th-sort">Email <span class="sort-ind"></span></th>
+              <th data-sort="level" class="th-sort">Level <span class="sort-ind"></span></th>
+              <th data-sort="xp" class="th-sort">Total Skor/XP <span class="sort-ind"></span></th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tbodySiswa">
+            <tr class="state-row"><td colspan="6"><div class="mini-spinner"></div>Memuat Data Siswa...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination-bar" id="paginationBar">
+        <span class="pagination-info" id="paginationInfo">–</span>
+        <div class="pagination-controls" id="paginationControls"></div>
+      </div>
+    </div>
+  </section>
 
-      <!-- ===================== VIEW: PENGATURAN PROFIL ===================== -->
-      <section class="view" id="view-pengaturan">
-        <span class="view-eyebrow">Akun</span>
-        <h2 class="view-heading">Pengaturan Profil</h2>
-        <p class="view-sub">Kelola informasi dan foto profil akun guru Anda.</p>
+  <!-- ===================== VIEW: PENGATURAN PROFIL ===================== -->
+  <section class="view" id="view-pengaturan">
+    <span class="view-eyebrow">Akun</span>
+    <h2 class="view-heading">Pengaturan Profil</h2>
+    <p class="view-sub">Kelola informasi dan foto profil akun guru Anda.</p>
 
-        <div class="settings-grid">
-          <div class="panel">
-            <h3>Foto Profil</h3>
-            <p class="panel-sub">Unggah foto dari galeri. Gambar otomatis dikompres agar ringan.</p>
-            <div class="foto-profil-area">
-              <span class="foto-preview-wrap" id="fotoPreviewWrap">
-                <span id="fotoPreviewInisial">G</span>
-              </span>
-              <div class="foto-actions">
-                <label class="btn-upload" for="inputFotoProfil">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M12 3v13M12 3l4 4M12 3 8 7"/></svg>
-                  Pilih Foto Baru
-                </label>
-                <input type="file" id="inputFotoProfil" accept="image/*" hidden>
-                <span class="foto-hint" id="fotoUploadStatus">JPG/PNG, otomatis dikompres ke 200px.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <h3>Informasi Akun</h3>
-            <p class="panel-sub">Perbarui nama tampilan yang muncul di seluruh portal.</p>
-            <form id="formProfilGuru" class="form-profil">
-              <div class="form-group">
-                <label for="inputNamaGuru">Nama Lengkap</label>
-                <input type="text" id="inputNamaGuru" placeholder="Nama guru" required>
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input type="text" id="inputEmailGuru" disabled>
-              </div>
-              <button type="submit" class="btn-simpan-profil" id="btnSimpanProfil">Simpan Perubahan</button>
-              <span class="form-status" id="formProfilStatus"></span>
-            </form>
+    <div class="settings-grid">
+      <div class="panel">
+        <h3>Foto Profil</h3>
+        <p class="panel-sub">Unggah foto dari galeri. Gambar otomatis dikompres agar ringan.</p>
+        <div class="foto-profil-area">
+          <span class="foto-preview-wrap" id="fotoPreviewWrap">
+            <span id="fotoPreviewInisial">G</span>
+          </span>
+          <div class="foto-actions">
+            <label class="btn-upload" for="inputFotoProfil">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M12 3v13M12 3l4 4M12 3 8 7"/></svg>
+              Pilih Foto Baru
+            </label>
+            <input type="file" id="inputFotoProfil" accept="image/*" hidden>
+            <span class="foto-hint" id="fotoUploadStatus">JPG/PNG, otomatis dikompres ke 200px.</span>
           </div>
         </div>
+      </div>
 
-        <div class="panel" style="margin-top:16px;">
-          <h3>🖋️ Kop Surat Laporan (PDF)</h3>
-          <p class="panel-sub">Unggah logo dinas/sekolah untuk ditampilkan otomatis di sudut kiri atas setiap laporan PDF yang dicetak.</p>
-          <div class="kop-surat-area">
-            <span class="kop-logo-preview" id="kopLogoPreview">
-              <span class="kop-logo-placeholder">Belum ada logo</span>
-            </span>
-            <div class="kop-logo-actions">
-              <label class="btn-upload-kop" for="inputLogoSurat">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M12 3v13M12 3l4 4M12 3 8 7"/></svg>
-                Atur Logo Kop Surat
-              </label>
-              <input type="file" accept="image/*" id="inputLogoSurat" hidden>
-              <span class="kop-status" id="kopLogoStatus">PNG/JPG, disimpan lokal di perangkat ini.</span>
-              <button type="button" class="btn-hapus-logo" id="btnHapusLogoKop" hidden>Hapus logo</button>
-            </div>
+      <div class="panel">
+        <h3>Informasi Akun</h3>
+        <p class="panel-sub">Perbarui nama tampilan yang muncul di seluruh portal.</p>
+        <form id="formProfilGuru" class="form-profil">
+          <div class="form-group">
+            <label for="inputNamaGuru">Nama Lengkap</label>
+            <input type="text" id="inputNamaGuru" placeholder="Nama guru" required>
           </div>
-        </div>
-      </section>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" id="inputEmailGuru" disabled>
+          </div>
+          <button type="submit" class="btn-simpan-profil" id="btnSimpanProfil">Simpan Perubahan</button>
+          <span class="form-status" id="formProfilStatus"></span>
+        </form>
+      </div>
+    </div>
 
-    </main>
+    <div class="panel" style="margin-top:16px;">
+      <h3>🖋️ Kop Surat Laporan (PDF)</h3>
+      <p class="panel-sub">Unggah logo kiri dan logo kanan untuk ditampilkan otomatis di kedua sudut atas setiap laporan PDF yang dicetak.</p>
+      <div class="kop-surat-area">
+        <span class="kop-logo-preview" id="kopLogoPreviewKiri">
+          <span class="kop-logo-placeholder">Logo Kiri</span>
+        </span>
+        <div class="kop-logo-actions">
+          <label class="btn-upload-kop" for="inputLogoSuratKiri">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M12 3v13M12 3l4 4M12 3 8 7"/></svg>
+            Atur Logo Kiri
+          </label>
+          <input type="file" accept="image/*" id="inputLogoSuratKiri" hidden>
+          <span class="kop-status" id="kopLogoStatusKiri">PNG/JPG, disimpan lokal di perangkat ini.</span>
+          <button type="button" class="btn-hapus-logo" id="btnHapusLogoKopKiri" hidden>Hapus logo kiri</button>
+        </div>
+      </div>
+      <div class="kop-surat-area" style="margin-top:16px;">
+        <span class="kop-logo-preview" id="kopLogoPreviewKanan">
+          <span class="kop-logo-placeholder">Logo Kanan</span>
+        </span>
+        <div class="kop-logo-actions">
+          <label class="btn-upload-kop" for="inputLogoSuratKanan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M12 3v13M12 3l4 4M12 3 8 7"/></svg>
+            Atur Logo Kanan
+          </label>
+          <input type="file" accept="image/*" id="inputLogoSuratKanan" hidden>
+          <span class="kop-status" id="kopLogoStatusKanan">PNG/JPG, disimpan lokal di perangkat ini.</span>
+          <button type="button" class="btn-hapus-logo" id="btnHapusLogoKopKanan" hidden>Hapus logo kanan</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+```
+
   </div>
 </div>
 
 <!-- ===================== MODAL RAPOR INDIVIDU SISWA ===================== -->
+
 <div class="modal-backdrop" id="modalDetail">
   <div class="modal-box modal-box-lg">
     <button class="modal-close-x" id="btnTutupModalX" type="button" aria-label="Tutup">&times;</button>
     <div class="modal-rapor-kop">
-      <span class="modal-rapor-kop-badge">CHEMCLAK</span>
+      <span class="modal-rapor-kop-badge">Daktron</span>
       <strong>Rapor Individu Siswa</strong>
-      <span>Portal Evaluasi CHEMCLAK</span>
+      <span>Portal Evaluasi Daktron</span>
     </div>
 
-    <div class="modal-head">
-      <span class="guru-avatar modal-avatar-lg" id="modalAvatar">S</span>
-      <div>
-        <strong id="modalNama">–</strong>
-        <span id="modalEmail">–</span>
-      </div>
-    </div>
+```
+<div class="modal-head">
+  <span class="guru-avatar modal-avatar-lg" id="modalAvatar">S</span>
+  <div>
+    <strong id="modalNama">–</strong>
+    <span id="modalEmail">–</span>
+  </div>
+</div>
 
-    <div class="modal-grid">
-      <div class="modal-stat"><span>Level</span><strong id="modalLevel">–</strong></div>
-      <div class="modal-stat"><span>Total XP</span><strong id="modalXp">–</strong></div>
-      <div class="modal-stat"><span>Peringkat Global</span><strong id="modalRank">–</strong></div>
-      <div class="modal-stat"><span>Selisih ke Peringkat 1</span><strong id="modalGap">–</strong></div>
-    </div>
+<div class="modal-grid">
+  <div class="modal-stat"><span>Level</span><strong id="modalLevel">–</strong></div>
+  <div class="modal-stat"><span>Total XP</span><strong id="modalXp">–</strong></div>
+  <div class="modal-stat"><span>Peringkat Global</span><strong id="modalRank">–</strong></div>
+  <div class="modal-stat"><span>Selisih ke Peringkat 1</span><strong id="modalGap">–</strong></div>
+</div>
 
-    <div class="modal-progress-wrap">
-      <div class="modal-progress-label">
-        <span>Progres menuju level berikutnya</span>
-        <span id="modalProgressPct">0%</span>
-      </div>
-      <div class="modal-progress-track"><div class="modal-progress-fill" id="modalProgressFill"></div></div>
-    </div>
+<div class="modal-progress-wrap">
+  <div class="modal-progress-label">
+    <span>Progres menuju level berikutnya</span>
+    <span id="modalProgressPct">0%</span>
+  </div>
+  <div class="modal-progress-track"><div class="modal-progress-fill" id="modalProgressFill"></div></div>
+</div>
 
-    <div class="modal-actions">
-      <button class="btn-cetak-individu" id="btnCetakRaporSiswa" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
-        Cetak Rapor Siswa (PDF)
-      </button>
-      <button class="btn-tutup-modal" id="btnTutupModal" type="button">Tutup</button>
-    </div>
+<div class="modal-actions">
+  <button class="btn-cetak-individu" id="btnCetakRaporSiswa" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+    Cetak Rapor Siswa (PDF)
+  </button>
+  <button class="btn-tutup-modal" id="btnTutupModal" type="button">Tutup</button>
+</div>
+```
+
   </div>
 </div>
 
@@ -635,7 +666,7 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
 
 <script type="module">
 /* =====================================================================
-   PORTAL ANALITIK GURU — CHEMCLAK — LOGIKA APLIKASI
+   PORTAL ANALITIK GURU — Daktron — LOGIKA APLIKASI
    Firebase Web SDK v12.15.0 via CDN
    ===================================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
@@ -681,7 +712,8 @@ let userAktif = null;
 let dataGuruAktif = null;
 let fotoBase64Terpilih = null; // menampung hasil kompresi foto sebelum disimpan
 let chartLevel = null;
-let logoKopSuratBase64 = null; // Base64 logo kop surat, disimpan di localStorage
+let logoKopSuratKiriBase64 = null;  // Base64 logo kop surat kiri, disimpan di localStorage
+let logoKopSuratKananBase64 = null; // Base64 logo kop surat kanan, disimpan di localStorage
 
 /* =====================================================================
    2. SISTEM KEAMANAN — ROLE-BASED ACCESS CONTROL
@@ -1109,7 +1141,7 @@ function unduhLaporanCsv(){
 
   const namaBulan = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const sekarang = new Date();
-  const namaFile = `Peringkat_Global_CHEMCLAK_${sekarang.getDate()}_${namaBulan[sekarang.getMonth()]}_${sekarang.getFullYear()}.csv`;
+  const namaFile = `Peringkat_Global_Daktron_${sekarang.getDate()}_${namaBulan[sekarang.getMonth()]}_${sekarang.getFullYear()}.csv`;
 
   const a = document.createElement('a');
   a.href = url; a.download = namaFile;
@@ -1146,15 +1178,24 @@ function deteksiFormatGambar(base64){
  */
 function gambarKopSuratResmi(docPdf){
   const lebarHalaman = docPdf.internal.pageSize.getWidth();
-  const logoBase64 = localStorage.getItem('logoKopSurat');
+  const logoKiriBase64 = localStorage.getItem('logoKopSuratKiri');
+  const logoKananBase64 = localStorage.getItem('logoKopSuratKanan');
   const topY = 12;
   const ukuranLogo = 22;
 
-  if(logoBase64){
+  if(logoKiriBase64){
     try{
-      docPdf.addImage(logoBase64, deteksiFormatGambar(logoBase64), 14, topY, ukuranLogo, ukuranLogo, undefined, 'FAST');
+      docPdf.addImage(logoKiriBase64, deteksiFormatGambar(logoKiriBase64), 14, topY, ukuranLogo, ukuranLogo, undefined, 'FAST');
     }catch(e){
-      console.warn('Gagal menambahkan logo kop surat ke PDF:', e);
+      console.warn('Gagal menambahkan logo kiri kop surat ke PDF:', e);
+    }
+  }
+
+  if(logoKananBase64){
+    try{
+      docPdf.addImage(logoKananBase64, deteksiFormatGambar(logoKananBase64), lebarHalaman - 14 - ukuranLogo, topY, ukuranLogo, ukuranLogo, undefined, 'FAST');
+    }catch(e){
+      console.warn('Gagal menambahkan logo kanan kop surat ke PDF:', e);
     }
   }
 
@@ -1241,7 +1282,7 @@ function cetakPeringkatGlobalPdf(){
 
   const namaBulan = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const sekarang = new Date();
-  const namaFile = `Peringkat_Global_CHEMCLAK_${sekarang.getDate()}_${namaBulan[sekarang.getMonth()]}_${sekarang.getFullYear()}.pdf`;
+  const namaFile = `Peringkat_Global_Daktron_${sekarang.getDate()}_${namaBulan[sekarang.getMonth()]}_${sekarang.getFullYear()}.pdf`;
   docPdf.save(namaFile);
 
   tampilkanToast(`Laporan Peringkat Global berhasil diunduh: ${namaFile}`);
@@ -1293,12 +1334,12 @@ function cetakRaporSiswaPdf(){
   docPdf.setFont('helvetica', 'italic');
   docPdf.setFontSize(9);
   docPdf.setTextColor(90,90,90);
-  docPdf.text('Catatan: Peringkat global dihitung berdasarkan akumulasi XP dari seluruh aktivitas pembelajaran siswa di platform CHEMCLAK.', 14, yAkhir + 10, { maxWidth: 180 });
+  docPdf.text('Catatan: Peringkat global dihitung berdasarkan akumulasi XP dari seluruh aktivitas pembelajaran siswa di platform Daktron.', 14, yAkhir + 10, { maxWidth: 180 });
 
   gambarRuangTandaTangan(docPdf, yAkhir + 40);
 
   const namaFileAman = s.nama.replace(/[^a-z0-9]+/gi, '_');
-  docPdf.save(`Rapor_${namaFileAman}_CHEMCLAK.pdf`);
+  docPdf.save(`Rapor_${namaFileAman}_Daktron.pdf`);
 
   tampilkanToast(`Rapor individu ${s.nama} berhasil diunduh.`);
 }
@@ -1402,20 +1443,20 @@ async function simpanProfilGuru(e){
 /* =====================================================================
    11B. PENGATURAN KOP SURAT — UPLOAD LOGO LAPORAN (FileReader + localStorage)
    ===================================================================== */
-function renderPreviewLogoKop(base64){
-  const wrap = $('#kopLogoPreview');
-  const btnHapus = $('#btnHapusLogoKop');
+function renderPreviewLogoKop(sisi, base64){
+  const wrap = $(sisi === 'kiri' ? '#kopLogoPreviewKiri' : '#kopLogoPreviewKanan');
+  const btnHapus = $(sisi === 'kiri' ? '#btnHapusLogoKopKiri' : '#btnHapusLogoKopKanan');
   wrap.innerHTML = '';
   if(base64){
     const img = document.createElement('img');
     img.src = base64;
-    img.alt = 'Logo kop surat';
+    img.alt = 'Logo kop surat ' + sisi;
     wrap.appendChild(img);
     if(btnHapus) btnHapus.hidden = false;
   } else {
     const placeholder = document.createElement('span');
     placeholder.className = 'kop-logo-placeholder';
-    placeholder.textContent = 'Belum ada logo';
+    placeholder.textContent = sisi === 'kiri' ? 'Logo Kiri' : 'Logo Kanan';
     wrap.appendChild(placeholder);
     if(btnHapus) btnHapus.hidden = true;
   }
@@ -1423,61 +1464,75 @@ function renderPreviewLogoKop(base64){
 
 function muatLogoKopSuratTersimpan(){
   try{
-    logoKopSuratBase64 = localStorage.getItem('logoKopSurat');
+    logoKopSuratKiriBase64 = localStorage.getItem('logoKopSuratKiri');
+    logoKopSuratKananBase64 = localStorage.getItem('logoKopSuratKanan');
   }catch(e){
-    console.warn('Gagal membaca logoKopSurat dari localStorage:', e);
-    logoKopSuratBase64 = null;
+    console.warn('Gagal membaca logo kop surat dari localStorage:', e);
+    logoKopSuratKiriBase64 = null;
+    logoKopSuratKananBase64 = null;
   }
-  renderPreviewLogoKop(logoKopSuratBase64);
+  renderPreviewLogoKop('kiri', logoKopSuratKiriBase64);
+  renderPreviewLogoKop('kanan', logoKopSuratKananBase64);
 }
 
-function tanganiPilihLogoSurat(e){
-  const file = e.target.files && e.target.files[0];
-  if(!file) return;
-  const statusEl = $('#kopLogoStatus');
+function buatHandlerPilihLogoSurat(sisi){
+  const kunciStorage = sisi === 'kiri' ? 'logoKopSuratKiri' : 'logoKopSuratKanan';
+  const idStatus = sisi === 'kiri' ? '#kopLogoStatusKiri' : '#kopLogoStatusKanan';
 
-  if(!file.type.startsWith('image/')){
-    statusEl.textContent = 'File yang dipilih bukan gambar. Coba file lain.';
-    statusEl.className = 'kop-status err';
-    return;
-  }
+  return function(e){
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const statusEl = $(idStatus);
 
-  statusEl.textContent = 'Memproses logo...';
-  statusEl.className = 'kop-status';
-
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    const base64 = ev.target.result;
-    try{
-      localStorage.setItem('logoKopSurat', base64);
-      logoKopSuratBase64 = base64;
-      renderPreviewLogoKop(base64);
-      statusEl.textContent = 'Logo kop surat berhasil disimpan & siap dicetak.';
-      statusEl.className = 'kop-status ok';
-      tampilkanToast('Logo kop surat berhasil disimpan.');
-    }catch(err){
-      console.error('Gagal menyimpan logo ke localStorage:', err);
-      statusEl.textContent = 'Gagal menyimpan logo (ukuran mungkin terlalu besar).';
+    if(!file.type.startsWith('image/')){
+      statusEl.textContent = 'File yang dipilih bukan gambar. Coba file lain.';
       statusEl.className = 'kop-status err';
-      tampilkanToast('Gagal menyimpan logo kop surat.', true);
+      return;
     }
-  };
-  reader.onerror = () => {
-    statusEl.textContent = 'Gagal membaca file gambar.';
-    statusEl.className = 'kop-status err';
-  };
-  reader.readAsDataURL(file);
-}
 
-function hapusLogoKopSurat(){
-  try{ localStorage.removeItem('logoKopSurat'); }catch(e){ /* abaikan */ }
-  logoKopSuratBase64 = null;
-  renderPreviewLogoKop(null);
-  $('#inputLogoSurat').value = '';
-  const statusEl = $('#kopLogoStatus');
-  statusEl.textContent = 'Logo dihapus. Laporan PDF akan dicetak tanpa logo.';
+    statusEl.textContent = 'Memproses logo...';
+    statusEl.className = 'kop-status';
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const base64 = ev.target.result;
+      try{
+        localStorage.setItem(kunciStorage, base64);
+        if(sisi === 'kiri'){ logoKopSuratKiriBase64 = base64; } else { logoKopSuratKananBase64 = base64; }
+        renderPreviewLogoKop(sisi, base64);
+        statusEl.textContent = 'Logo berhasil disimpan & siap dicetak.';
+        statusEl.className = 'kop-status ok';
+        tampilkanToast('Logo kop surat ' + sisi + ' berhasil disimpan.');
+      }catch(err){
+        console.error('Gagal menyimpan logo ke localStorage:', err);
+        statusEl.textContent = 'Gagal menyimpan logo (ukuran mungkin terlalu besar).';
+        statusEl.className = 'kop-status err';
+        tampilkanToast('Gagal menyimpan logo kop surat ' + sisi + '.', true);
+      }
+    };
+    reader.onerror = () => {
+      statusEl.textContent = 'Gagal membaca file gambar.';
+      statusEl.className = 'kop-status err';
+    };
+    reader.readAsDataURL(file);
+  };
+}
+const tanganiPilihLogoSuratKiri = buatHandlerPilihLogoSurat('kiri');
+const tanganiPilihLogoSuratKanan = buatHandlerPilihLogoSurat('kanan');
+
+function hapusLogoKopSurat(sisi){
+  const kunciStorage = sisi === 'kiri' ? 'logoKopSuratKiri' : 'logoKopSuratKanan';
+  const idInput = sisi === 'kiri' ? '#inputLogoSuratKiri' : '#inputLogoSuratKanan';
+  const idStatus = sisi === 'kiri' ? '#kopLogoStatusKiri' : '#kopLogoStatusKanan';
+
+  try{ localStorage.removeItem(kunciStorage); }catch(e){ /* abaikan */ }
+  if(sisi === 'kiri'){ logoKopSuratKiriBase64 = null; } else { logoKopSuratKananBase64 = null; }
+  renderPreviewLogoKop(sisi, null);
+  $(idInput).value = '';
+  const statusEl = $(idStatus);
+  statusEl.textContent = 'Logo dihapus. Laporan PDF akan dicetak tanpa logo ' + sisi + '.';
   statusEl.className = 'kop-status';
-  tampilkanToast('Logo kop surat dihapus.');
+  tampilkanToast('Logo kop surat ' + sisi + ' dihapus.');
 }
 
 /* ---------- Toast ---------- */
@@ -1545,8 +1600,10 @@ function pasangEventListener(){
   $('#inputFotoProfil').addEventListener('change', tanganiPilihFoto);
   $('#formProfilGuru').addEventListener('submit', simpanProfilGuru);
 
-  $('#inputLogoSurat').addEventListener('change', tanganiPilihLogoSurat);
-  $('#btnHapusLogoKop').addEventListener('click', hapusLogoKopSurat);
+  $('#inputLogoSuratKiri').addEventListener('change', tanganiPilihLogoSuratKiri);
+  $('#btnHapusLogoKopKiri').addEventListener('click', () => hapusLogoKopSurat('kiri'));
+  $('#inputLogoSuratKanan').addEventListener('change', tanganiPilihLogoSuratKanan);
+  $('#btnHapusLogoKopKanan').addEventListener('click', () => hapusLogoKopSurat('kanan'));
   muatLogoKopSuratTersimpan();
 
   $('#btnLogout').addEventListener('click', () => {
