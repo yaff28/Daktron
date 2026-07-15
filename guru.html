@@ -240,6 +240,7 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
 .td-nama .row-avatar{ width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(150deg, var(--biru-bright), var(--biru-dark)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; flex-shrink: 0; overflow: hidden; }
 .td-nama .row-avatar img{ width: 100%; height: 100%; object-fit: cover; }
 .td-email{ color: var(--text-muted); }
+.td-email-kosong{ color: var(--text-faint); font-style: italic; cursor: help; }
 .badge-level{ display: inline-block; padding: 3px 9px; border-radius: 999px; background: var(--biru-mist); color: var(--biru-dark); font-size: .74rem; font-weight: 800; }
 .td-skor{ font-family: var(--font-mono); font-weight: 800; color: var(--hijau); }
 .badge-aktif{ display: inline-flex; align-items: center; gap: 5px; font-size: .7rem; font-weight: 800; padding: 3px 8px; border-radius: 999px; }
@@ -284,6 +285,36 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
 .kop-status.ok{ color: var(--hijau); }
 .kop-status.err{ color: var(--merah); }
 .btn-hapus-logo{ background: none; border: none; color: var(--merah); font-size: .74rem; font-weight: 700; cursor: pointer; text-align: left; padding: 0; width: fit-content; text-decoration: underline; }
+
+/* ---------- TANDA TANGAN DIGITAL ---------- */
+.ttd-grid{ display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; align-items: start; margin-top: 4px; }
+.ttd-pad-label{ display: block; font-size: .74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 8px; }
+.ttd-pad-wrap, .ttd-preview-wrap{ display: flex; flex-direction: column; gap: 10px; }
+.ttd-canvas{
+  width: 100%; height: 150px; max-width: 500px;
+  background:
+    linear-gradient(to bottom, transparent calc(100% - 46px), rgba(85,100,122,.28) calc(100% - 46px), rgba(85,100,122,.28) calc(100% - 44px), transparent calc(100% - 44px)),
+    repeating-linear-gradient(45deg, transparent, transparent 9px, rgba(139,151,170,.08) 9px, rgba(139,151,170,.08) 10px),
+    var(--surface-2);
+  border: 1.5px dashed var(--border); border-radius: var(--radius-sm);
+  touch-action: none; cursor: crosshair; display: block;
+}
+.ttd-pad-actions, .ttd-preview-actions{ display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn-ttd-primary{ background: linear-gradient(135deg, var(--biru-bright), var(--biru-dark)); color: #fff; font-weight: 800; font-size: .82rem; padding: 10px 16px; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 8px 20px -8px rgba(30,95,168,.6); transition: transform .15s ease; }
+.btn-ttd-primary:hover{ transform: translateY(-1px); }
+.btn-ttd-primary:disabled{ opacity: .55; cursor: not-allowed; transform: none; }
+.btn-ttd-secondary{ background: var(--surface); color: var(--biru-dark); font-weight: 700; font-size: .8rem; padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; }
+.btn-ttd-secondary:hover{ background: var(--surface-2); }
+.ttd-preview{
+  width: 100%; max-width: 500px; height: 150px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--surface);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 8px;
+}
+.ttd-preview img{ max-width: 100%; max-height: 100%; object-fit: contain; }
+.ttd-preview-placeholder{ font-size: .78rem; color: var(--text-faint); font-weight: 700; text-align: center; padding: 0 16px; }
+@media (max-width: 720px){
+  .ttd-grid{ grid-template-columns: 1fr; }
+}
 
 .form-profil{ display: flex; flex-direction: column; gap: 14px; }
 .form-group{ display: flex; flex-direction: column; gap: 6px; }
@@ -385,7 +416,6 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
       </div>
     </div>
 
-```
 <div class="sidebar-profile">
   <span class="sp-avatar" id="sidebarAvatarWrap">G</span>
   <div class="sp-meta">
@@ -409,7 +439,6 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
   </button>
 </nav>
 <div class="sidebar-foot">Lomba Inovasi Nasional · Daktron © 2026</div>
-```
 
   </aside>
 
@@ -436,7 +465,6 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
       </div>
     </header>
 
-```
 <main class="content">
 
   <!-- ===================== VIEW: BERANDA ===================== -->
@@ -607,10 +635,38 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
         </div>
       </div>
     </div>
+
+    <div class="panel" style="margin-top:16px;">
+      <h3>✍️ Tanda Tangan Digital</h3>
+      <p class="panel-sub">Gambar tanda tangan langsung dengan jari/mouse, atau unggah gambar tanda tangan. Setelah disimpan, tanda tangan ini otomatis muncul di setiap laporan PDF yang dicetak — tidak perlu tanda tangan basah lagi.</p>
+
+      <div class="ttd-grid">
+        <div class="ttd-pad-wrap">
+          <span class="ttd-pad-label">Gambar di sini</span>
+          <canvas id="canvasTandaTangan" class="ttd-canvas" width="500" height="180"></canvas>
+          <div class="ttd-pad-actions">
+            <button type="button" class="btn-ttd-secondary" id="btnBersihkanCanvasTtd">Bersihkan Coretan</button>
+          </div>
+        </div>
+
+        <div class="ttd-preview-wrap">
+          <span class="ttd-pad-label">Tanda tangan tersimpan</span>
+          <div class="ttd-preview" id="ttdPreview">
+            <span class="ttd-preview-placeholder">Belum ada tanda tangan tersimpan</span>
+          </div>
+          <div class="ttd-preview-actions">
+            <button type="button" class="btn-ttd-primary" id="btnSimpanTtd">Simpan Tanda Tangan</button>
+            <label class="btn-ttd-secondary" for="inputUploadTandaTangan" style="cursor:pointer; text-align:center;">Unggah Gambar</label>
+            <input type="file" accept="image/*" id="inputUploadTandaTangan" hidden>
+            <button type="button" class="btn-hapus-logo" id="btnHapusTtd" hidden>Hapus tanda tangan tersimpan</button>
+          </div>
+          <span class="kop-status" id="ttdStatus">Tanda tangan disimpan aman ke akun Anda &mdash; ikut muncul di perangkat mana pun Anda login.</span>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main>
-```
 
   </div>
 </div>
@@ -626,7 +682,6 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
       <span>Portal Evaluasi Daktron</span>
     </div>
 
-```
 <div class="modal-head">
   <span class="guru-avatar modal-avatar-lg" id="modalAvatar">S</span>
   <div>
@@ -657,7 +712,6 @@ table.tabel-siswa{ width: 100%; border-collapse: collapse; min-width: 640px; }
   </button>
   <button class="btn-tutup-modal" id="btnTutupModal" type="button">Tutup</button>
 </div>
-```
 
   </div>
 </div>
@@ -803,6 +857,39 @@ function tampilkanDashboard(dataGuru, user){
 /* =====================================================================
    4. LOGIKA FIREBASE — PENARIKAN DATA SISWA REAL-TIME
    ===================================================================== */
+// XP kumulatif yang dibutuhkan per level (dipakai sebagai patokan level minimum
+// yang konsisten di seluruh portal — lihat hitungLevelDariXp() di bawah).
+const XP_PER_LEVEL = 100;
+
+// Menghitung level minimum berdasarkan akumulasi XP siswa.
+// Field "level" di Firestore kadang kosong/tidak pernah diperbarui oleh sisi
+// aplikasi siswa, sehingga sebelumnya semua siswa tampil "Lv. 1" walau XP-nya
+// jauh berbeda. Level sekarang SELALU dihitung ulang dari XP sebagai patokan
+// minimum, lalu dibandingkan dengan field level tersimpan (jika ada & valid)
+// dan diambil yang PALING BESAR — supaya level tidak pernah salah/mundur.
+function hitungLevelDariXp(xp){
+  const skor = (typeof xp === 'number' && isFinite(xp) && xp > 0) ? xp : 0;
+  return Math.floor(skor / XP_PER_LEVEL) + 1;
+}
+
+// Mengambil nilai field dari sebuah dokumen dengan mencoba beberapa
+// kemungkinan nama field sekaligus (menangani inkonsistensi skema data).
+function ambilFieldPertama(objek, daftarNamaField){
+  for(const nama of daftarNamaField){
+    const nilai = objek?.[nama];
+    if(nilai !== undefined && nilai !== null && String(nilai).trim() !== ''){
+      return nilai;
+    }
+  }
+  return null;
+}
+
+// Teks tampilan email yang ramah — dipakai di seluruh tampilan (tabel, modal,
+// mini top 5, ekspor CSV/PDF) supaya konsisten saat data email siswa kosong.
+function teksEmailTampil(email){
+  return email && String(email).trim() ? email : 'Belum tersedia';
+}
+
 function ambilDataSiswaRealtime(){
   const refUsers = collection(db, 'users');
   unsubscribeSiswa = onSnapshot(refUsers, (snap) => {
@@ -812,12 +899,25 @@ function ambilDataSiswaRealtime(){
       if(d.role === 'guru') return; // lewati akun guru
 
       const totalSkor = (typeof d.xp === 'number') ? d.xp : (typeof d.skor === 'number' ? d.skor : 0);
-      const levelSiswa = (typeof d.level === 'number') ? d.level : (parseInt(d.level, 10) || 1);
+
+      // Level mentah dari database (jika field-nya ada & berupa angka valid).
+      const levelMentahRaw = ambilFieldPertama(d, ['level', 'lvl', 'levelSiswa', 'userLevel']);
+      const levelMentah = (levelMentahRaw !== null && !isNaN(parseInt(levelMentahRaw, 10)) && parseInt(levelMentahRaw, 10) > 0)
+        ? parseInt(levelMentahRaw, 10)
+        : 1;
+      const levelDariXp = hitungLevelDariXp(totalSkor);
+      // Ambil level tertinggi antara data tersimpan & hasil hitung dari XP,
+      // agar level tidak pernah "salah" (terlalu rendah) walau field di DB usang.
+      const levelSiswa = Math.max(levelMentah, levelDariXp);
+
+      // Email dicoba dari beberapa kemungkinan nama field agar tidak kosong
+      // begitu saja jika skema penyimpanan di sisi siswa berbeda-beda.
+      const emailSiswa = ambilFieldPertama(d, ['email', 'Email', 'userEmail', 'emailAddress', 'mail']);
 
       sementara.push({
         uid: dS.id,
         nama: d.name || 'Siswa Tanpa Nama',
-        email: d.email || '-',
+        email: emailSiswa || '',
         level: levelSiswa,
         xp: totalSkor,
         fotoBase64: d.photoBase64 || null
@@ -876,7 +976,7 @@ function renderTop5(list){
     renderAvatarKe(avatarEl, s.nama, s.fotoBase64);
     const infoEl = document.createElement('div'); infoEl.className = 'mini-info';
     const namaEl = document.createElement('strong'); namaEl.textContent = s.nama;
-    const emailEl = document.createElement('span'); emailEl.textContent = s.email;
+    const emailEl = document.createElement('span'); emailEl.textContent = teksEmailTampil(s.email);
     infoEl.append(namaEl, emailEl);
     const skorEl = document.createElement('span'); skorEl.className = 'mini-score'; skorEl.textContent = s.xp.toLocaleString('id-ID') + ' XP';
 
@@ -1014,7 +1114,14 @@ function renderTabelSiswa(potongan){
     const namaSpan = document.createElement('span'); namaSpan.textContent = s.nama;
     tdNama.append(avatar, namaSpan);
 
-    const tdEmail = document.createElement('td'); tdEmail.className = 'td-email'; tdEmail.textContent = s.email;
+    const tdEmail = document.createElement('td'); tdEmail.className = 'td-email';
+    if(s.email){
+      tdEmail.textContent = s.email;
+    } else {
+      tdEmail.textContent = 'Belum tersedia';
+      tdEmail.classList.add('td-email-kosong');
+      tdEmail.title = 'Siswa belum melengkapi email pada akunnya.';
+    }
 
     const tdLevel = document.createElement('td');
     const badge = document.createElement('span'); badge.className = 'badge-level'; badge.textContent = 'Lv. ' + s.level;
@@ -1091,7 +1198,7 @@ function bukaModalDetail(s, rank){
 
   renderAvatarKe($('#modalAvatar'), s.nama, s.fotoBase64);
   $('#modalNama').textContent = s.nama;
-  $('#modalEmail').textContent = s.email;
+  $('#modalEmail').textContent = teksEmailTampil(s.email);
   $('#modalLevel').textContent = s.level;
   $('#modalXp').textContent = s.xp.toLocaleString('id-ID');
   $('#modalRank').textContent = '#' + rank + ' dari ' + daftarSiswaAsli.length;
@@ -1132,7 +1239,7 @@ function unduhLaporanCsv(){
 
   dataDiekspor.forEach((s) => {
     const rank = daftarSiswaAsli.findIndex(x => x.uid === s.uid) + 1;
-    baris.push([rank, escapeCsv(s.nama), escapeCsv(s.email), s.level, s.xp].join(','));
+    baris.push([rank, escapeCsv(s.nama), escapeCsv(teksEmailTampil(s.email)), s.level, s.xp].join(','));
   });
 
   const csvString = '\uFEFF' + baris.join('\r\n');
@@ -1257,7 +1364,7 @@ function cetakPeringkatGlobalPdf(){
 
   const bodyTabel = dataDiekspor.map((s) => {
     const rank = daftarSiswaAsli.findIndex(x => x.uid === s.uid) + 1;
-    return [rank, s.nama, s.email, 'Lv. ' + s.level, s.xp.toLocaleString('id-ID')];
+    return [rank, s.nama, teksEmailTampil(s.email), 'Lv. ' + s.level, s.xp.toLocaleString('id-ID')];
   });
 
   docPdf.autoTable({
@@ -1312,7 +1419,7 @@ function cetakRaporSiswaPdf(){
 
   const baris = [
     ['Nama Siswa', s.nama],
-    ['Email', s.email],
+    ['Email', teksEmailTampil(s.email)],
     ['Level Saat Ini', 'Level ' + s.level],
     ['Total Skor / XP', s.xp.toLocaleString('id-ID')],
     ['Peringkat Global', '#' + rank + ' dari ' + daftarSiswaAsli.length + ' siswa']
