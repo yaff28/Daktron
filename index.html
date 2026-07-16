@@ -3793,33 +3793,32 @@ init();
 
 <script>
 /* ============================================================
-   PROFESOR TRON — AI Smart Tutor Logic (Vanilla JS + OpenAI API)
+   PROFESOR TRON — AI Smart Tutor Logic (Vanilla JS + Google Gemini API)
+   Model: gemini-1.5-flash
    ============================================================ */
 
-// ⚠️ GANTI dengan API Key OpenAI Anda. Untuk produksi, JANGAN taruh
+// ⚠️ GANTI dengan API Key Gemini Anda. Untuk produksi, JANGAN taruh
 // API Key di client-side — gunakan backend proxy agar key tidak bocor.
-const OPENAI_API_KEY = "Sk-proj-yXBkV-JWglPq3-7w8tnNqsFl-Ehc_eEMM8aM1m1xKSj1ztk9P0VHlVWgLu4CV_o-xR3lCGgi3lT3BlbkFJz3Pr_vKwlrpgHqOHOOS2wxfzVSDCOLitYEiVOUxE9FE4NCEzOgCYbPPHfX5ay7f4SQi0XhQnwA";
-const OPENAI_MODEL = "gpt-4o-mini";
+const GEMINI_API_KEY = "AQ.Ab8RN6Ih2autknk7btG_2U5QeWq-XnHFyJ_jGxYwywBQiJnAag";
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-let chatHistory = [
-  {
-    role: "system",
-    content: "Kamu adalah Profesor Tron, guru kimia virtual yang asyik, interaktif, dan cerdas di dalam platform Daktron. Tugasmu membantu siswa memahami struktur atom, konfigurasi elektron, dan tabel periodik. Gunakan bahasa Indonesia yang santai, memotivasi, tapi tetap sopan. Jangan langsung memberikan jawaban akhir dari pertanyaan kuis/PR, melainkan berikan petunjuk (clue) atau konsep dasarnya agar siswa berpikir sendiri. Batasi setiap jawaban maksimal 2-3 paragraf pendek."
-  }
-];
+const SYSTEM_INSTRUCTION = "Kamu adalah Profesor Tron, guru kimia virtual yang asyik, interaktif, dan cerdas di dalam platform Daktron. Tugasmu membantu siswa memahami struktur atom, konfigurasi elektron, dan tabel periodik. Gunakan bahasa Indonesia yang santai, memotivasi, tapi tetap sopan. Jangan berikan jawaban langsung jika ditanya soal PR/ujian, berikan petunjuk (clue) agar siswa berpikir. Batasi jawaban maksimal 2 paragraf pendek.";
+
+// Memori obrolan sesuai format Gemini: { role: "user"|"model", parts: [{ text }] }
+let chatHistory = [];
 
 let tronIsFetching = false;
 
-const elChatToggle  = document.getElementById('btnChatToggle');
-const elChatPanel   = document.getElementById('chatboxPanel');
-const elChatClose   = document.getElementById('btnChatClose');
-const elChatBody    = document.getElementById('chatboxBody');
-const elChatInput   = document.getElementById('chatInput');
-const elChatSend    = document.getElementById('btnSendChat');
+const elChatToggle = document.getElementById('btnChatToggle');
+const elChatPanel  = document.getElementById('chatboxPanel');
+const elChatClose  = document.getElementById('btnChatClose');
+const elChatBody   = document.getElementById('chatboxBody');
+const elChatInput  = document.getElementById('chatInput');
+const elChatSend   = document.getElementById('btnSendChat');
 
 function tronFormatTime() {
   const d = new Date();
-  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
 }
 
 function tronRenderMessage(role, text, isError) {
@@ -3897,9 +3896,9 @@ async function tronSendMessage() {
   const text = elChatInput.value.trim();
   if (!text || tronIsFetching) return;
 
-  // 1. Masukkan pesan user ke chatHistory & render ke layar
-  chatHistory.push({ role: "user", content: text });
+  // 1. Render pesan user & simpan ke chatHistory (format Gemini)
   tronRenderMessage('user', text);
+  chatHistory.push({ role: "user", parts: [{ text }] });
 
   elChatInput.value = '';
   elChatInput.style.height = 'auto';
@@ -3909,18 +3908,23 @@ async function tronSendMessage() {
   tronShowTyping();
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const payload = {
+      system_instruction: {
+        parts: [{ text: SYSTEM_INSTRUCTION }]
+      },
+      contents: chatHistory,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 400
+      }
+    };
+
+    const response = await fetch(GEMINI_API_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + OPENAI_API_KEY
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: OPENAI_MODEL,
-        messages: chatHistory,
-        temperature: 0.7,
-        max_tokens: 400
-      })
+      body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
@@ -3929,7 +3933,7 @@ async function tronSendMessage() {
     }
 
     const data = await response.json();
-    const aiReply = data?.choices?.[0]?.message?.content?.trim();
+    const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
     tronHideTyping();
 
@@ -3937,8 +3941,8 @@ async function tronSendMessage() {
       throw new Error("Respons kosong dari server AI.");
     }
 
-    // Simpan balasan AI ke memori chatHistory agar konteks berlanjut
-    chatHistory.push({ role: "assistant", content: aiReply });
+    // Simpan balasan AI ke memori chatHistory (role: "model") agar konteks berlanjut
+    chatHistory.push({ role: "model", parts: [{ text: aiReply }] });
     tronRenderMessage('ai', aiReply);
 
   } catch (err) {
@@ -3946,8 +3950,8 @@ async function tronSendMessage() {
     console.error('Profesor Tron error:', err);
 
     let pesanRamah = "Waduh, Profesor Tron lagi gangguan koneksi nih 😅 Coba cek API Key atau koneksi internetmu, lalu kirim ulang pesannya ya!";
-    if (err && err.message && /api key|unauthorized|401/i.test(err.message)) {
-      pesanRamah = "API Key OpenAI belum terpasang atau tidak valid. Tolong isi variabel OPENAI_API_KEY di script terlebih dahulu ya!";
+    if (err && err.message && /api[_ ]?key|permission|unauthorized|401|403/i.test(err.message)) {
+      pesanRamah = "API Key Gemini belum terpasang atau tidak valid. Tolong isi variabel GEMINI_API_KEY di script terlebih dahulu ya!";
     } else if (err && err.message && /429|quota|rate/i.test(err.message)) {
       pesanRamah = "Profesor Tron kebanjiran pertanyaan nih (limit API tercapai). Coba lagi sesaat lagi ya!";
     }
@@ -3958,6 +3962,7 @@ async function tronSendMessage() {
     elChatSend.disabled = false;
   }
 }
+
 </script>
 </body>
 </html>
