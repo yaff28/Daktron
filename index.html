@@ -3797,16 +3797,14 @@ init();
    Model: gemini-1.5-flash
    ============================================================ */
 
-// ⚠️ GANTI dengan API Key Gemini Anda. Untuk produksi, JANGAN taruh
-// API Key di client-side — gunakan backend proxy agar key tidak bocor.
-const GEMINI_API_KEY = "AQ.Ab8RN6Ih2autknk7btG_2U5QeWq-XnHFyJ_jGxYwywBQiJnAag";
+// ⚠️ Menggunakan Kunci API "Daktron" yang berakhiran ZeHQ
+const GEMINI_API_KEY = "AQ.Ab8RN6JNynFhnv1m6gMgnclQQjw7j5GImS4vTOhJHJooELZeHQ";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const SYSTEM_INSTRUCTION = "Kamu adalah Profesor Tron, guru kimia virtual yang asyik, interaktif, dan cerdas di dalam platform Daktron. Tugasmu membantu siswa memahami struktur atom, konfigurasi elektron, dan tabel periodik. Gunakan bahasa Indonesia yang santai, memotivasi, tapi tetap sopan. Jangan berikan jawaban langsung jika ditanya soal PR/ujian, berikan petunjuk (clue) agar siswa berpikir. Batasi jawaban maksimal 2 paragraf pendek.";
 
-// Memori obrolan sesuai format Gemini: { role: "user"|"model", parts: [{ text }] }
+// Memori obrolan
 let chatHistory = [];
-
 let tronIsFetching = false;
 
 const elChatToggle = document.getElementById('btnChatToggle');
@@ -3896,7 +3894,6 @@ async function tronSendMessage() {
   const text = elChatInput.value.trim();
   if (!text || tronIsFetching) return;
 
-  // 1. Render pesan user & simpan ke chatHistory (format Gemini)
   tronRenderMessage('user', text);
   chatHistory.push({ role: "user", parts: [{ text }] });
 
@@ -3908,8 +3905,9 @@ async function tronSendMessage() {
   tronShowTyping();
 
   try {
+    // PERBAIKAN FATAL: systemInstruction wajib ditulis camelCase
     const payload = {
-      system_instruction: {
+      systemInstruction: {
         parts: [{ text: SYSTEM_INSTRUCTION }]
       },
       contents: chatHistory,
@@ -3941,7 +3939,6 @@ async function tronSendMessage() {
       throw new Error("Respons kosong dari server AI.");
     }
 
-    // Simpan balasan AI ke memori chatHistory (role: "model") agar konteks berlanjut
     chatHistory.push({ role: "model", parts: [{ text: aiReply }] });
     tronRenderMessage('ai', aiReply);
 
@@ -3954,6 +3951,9 @@ async function tronSendMessage() {
       pesanRamah = "API Key Gemini belum terpasang atau tidak valid. Tolong isi variabel GEMINI_API_KEY di script terlebih dahulu ya!";
     } else if (err && err.message && /429|quota|rate/i.test(err.message)) {
       pesanRamah = "Profesor Tron kebanjiran pertanyaan nih (limit API tercapai). Coba lagi sesaat lagi ya!";
+    } else {
+      // Penambahan deteksi error agar lebih jelas jika ada masalah payload lainnya
+      pesanRamah = "Terdapat masalah sistem: " + err.message;
     }
 
     tronRenderMessage('ai', pesanRamah, true);
@@ -3962,7 +3962,6 @@ async function tronSendMessage() {
     elChatSend.disabled = false;
   }
 }
-
 </script>
 </body>
 </html>
